@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- Start of head section-->
-
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8">
+    <style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    </style>
 </head>
-
-    <body>
-        <form action="" method="POST">
-            <?php
+<body>
+    <form action="" method="POST">
+        <?php
             $servername = "localhost";
             $username = "root";
             $password = "root@123";
@@ -31,14 +34,15 @@
                 $stmt = $conn->prepare("SELECT * from form where id='$id';"); 
                 $stmt->execute();
 
-                // set the resulting array to associative
-                //$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+// set the resulting array to associative
+//$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $result = $stmt->fetch();
             }
             catch(PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
-            ?>
+        ?>
+<!--table displaying individual record-->        
             <table class="table is-fullwidth ">
                 <thead>
                     <tr>
@@ -47,6 +51,8 @@
                         <th>Last Name</th>
                         <th>Email</th>
                         <th>Gender</th>
+                        <th>Delete</th>
+                        <th>Update</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,5 +69,4 @@
             </table>    
         </form>
     </body>
-
 </html>
