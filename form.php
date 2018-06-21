@@ -8,11 +8,72 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>   
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script> 
+    <script type="text/javascript">
+        function validate(form) 
+        {
+          var re = /^[a-z,A-Z]+$/i;
+          if (!re.test(form.fname.value))
+          {
+            alert('Please enter only letters from a to z');
+            return false;
+          }
+          if (!re.test(form.lname.value))
+          {
+            alert('Please enter only letters from a to z');
+            return false;
+          }
+        }
+    </script>
 </head>
   <body>
-    <div class="container">
-      <form method="POST" action="process.php">
+  <div class="container">
+  <?php
+    $inTwoMonths = 60 * 60 * 24 * 60 + time();
+    // echo time() + 5184000;
+    setcookie('lastVisit', date('jS F g:i A'), $inTwoMonths);
+    if(isset($_COOKIE['lastVisit']))
+    
+    {
+    $visit = $_COOKIE['lastVisit'];
+    echo "Your last visit was - ". $visit;
+    echo "\n";
+    }
+    else
+    echo "You've got some stale cookies!";
+  ?>
+  
+  <?php
+echo "<br>";
+$time = strtotime('2018-06-21 10:52:43');
+// echo $time;
+echo "\n";
+echo 'you visited the page '.humanTiming($time).' ago';
+
+function humanTiming ($time)
+{
+
+    $time = time() - $time; // to get the time since that moment
+    $time = ($time<1)? 1 : $time;
+    $tokens = array (
+        31536000 => 'year',
+        2592000 => 'month',
+        604800 => 'week',
+        86400 => 'day',
+        3600 => 'hour',
+        60 => 'minute',
+        1 => 'second'
+    );
+    foreach ($tokens as $unit => $text) {
+        if ($time < $unit) continue;
+        $numberOfUnits = floor($time / $unit);
+        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+    }
+
+}
+?>
+  <h1 class="title has-text-centered">Registration Form</h1>
+      <form method="POST" action="process.php" onsubmit="return validate(this);">
         <div class="field">
           <label class="label ">ID</label>
             <div class="control">
@@ -63,6 +124,7 @@
         </div>
       </form>
     </div>
+  </div>
   </body>
 </html>
 

@@ -1,28 +1,32 @@
 <?php
-    try{
+$servername = "localhost";
+$username = "root";
+$password = "root@123";
+$dbname= "form";
+$tablename= "form";
+//check connection
+try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $conn->prepare("SELECT id, firstname, lastname, email, gender FROM form"); 
-    $stmt->execute();
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC); 
-    foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) { 
-        echo $v;
-    }
 }
-    catch(PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
-    if($_GET['id'])
-{
- deletebooking($id);
-
-}  
-
-function deletebooking($id){
-
-$sql="DELETE FROM form WHERE id='".$id."'";
-$result=mysql_query($sql) or die("oopsy, error when tryin to delete events 2");
-
+catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
+$id=$_GET['id'];
+try {
+    $sql = "DELETE FROM form WHERE id=$id";
+
+    // use exec() because no results are returned
+    $conn->exec($sql);
+    echo 'alert("Record deleted successfully");';
+    // header("Location:process.php");
+
+    }
+catch(PDOException $e)
+    {
+    echo $sql . "<br>" . $e->getMessage();
+    }
+
+$conn = null;
 ?>
