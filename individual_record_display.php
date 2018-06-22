@@ -25,22 +25,15 @@
                 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                 // set the PDO error mode to exception
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            }
-            catch(PDOException $e) {
-                echo "Error: " . $e->getMessage();
-            }
-            try {
                 $id=$_GET['id'];
                 $stmt = $conn->prepare("SELECT * from form where id='$id';"); 
                 $stmt->execute();
-
-// set the resulting array to associative
-//$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $result = $stmt->fetch();
             }
             catch(PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
+           
         ?>
 <!--table displaying individual record-->        
             <table class="table is-fullwidth ">

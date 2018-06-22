@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script> 
     <script type="text/javascript">
-        function validate(form) 
+        function validate(form)
         {
           var re = /^[a-z,A-Z]+$/i;
           if (!re.test(form.fname.value))
@@ -20,22 +20,31 @@
           }
           if (!re.test(form.lname.value))
           {
-            alert('Please enter only letters from a to z');
+            alert('Please enter last name only letters from a to z');
             return false;
           }
-        }
-    </script>
+          if (empty($_POST["email"])) {
+            alert('Please fill your email');
+              // $emailErr = "Email is required";
+            } else {
+              $email=$_POST["email"];
+              if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                  $emailErr = " Please enter a correct email"; 
+              }
+            }
+          }
+       </script>
   </head>
   <body>
     <div class="container">
-    <div class="is-pulled-right is-clearfix">  
+    <div class="is-pulled-right is-clearfix"> 
+    
 <!--to show when we first visited the session-->
       <?php
         $inTwoMonths = 60 * 60 * 24 * 60 + time();
         // echo time() + 5184000;
         setcookie('lastVisit', date('jS F g:i A'), $inTwoMonths);
         if(isset($_COOKIE['lastVisit']))
-        
         {
         $visit = $_COOKIE['lastVisit'];
         echo "Your last visit was - ". $visit;
@@ -51,7 +60,6 @@
         // echo $time;
         echo "\n";
         echo 'you visited the page '.humanTiming($time).' ago';
-
         function humanTiming ($time)
         {
 
@@ -79,7 +87,7 @@
       <div class="columns ">
         <div class="column is-8 is-offset-one-fifth">
           <h1 class="title has-text-centered">Registration Form</h1>
-          <form method="POST" action="form_display.php" onsubmit="return validate(this);">
+          <form method="POST" action="form_display.php" onsubmit="return validate(this)">
           <div class="field">
             <label class="label ">ID</label>
               <div class="control">
@@ -89,19 +97,22 @@
           <div class="field">
             <label class="label ">First Name</label>
               <div class="control">
-                <input class="input is-primary" name="fname"type="text" id="name" placeholder="Input Name">
+                <input class="input is-primary" name="fname" type="text" id="fname" placeholder="Input Name">
+                <?php echo $nameErr;?>
               </div>
           </div>
           <div class="field">
             <label class="label">Last name</label>
               <div class="control">
-                <input class="input is-primary" name="lname"type="text" id="name" placeholder="Input Name">
+                <input class="input is-primary" name="lname" type="text" id="name" placeholder="Input Name">
+                <?php echo $nameErr;?>
               </div>
           </div> 
           <div class="field">
             <label class="label">Email</label>
               <div class="control has-icons-left has-icons-right">
-                <input class="input is-danger" type="email" name="email" id="email"  placeholder="Email input">
+                <input class="input is-danger" type="email" name="email" id="email"  placeholder="Email input" required>
+                <?php echo $emailErr;?>
                 <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
                 </span>

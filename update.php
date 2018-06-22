@@ -11,21 +11,7 @@
     <section class="container">
         <form method="POST">
             <?php
-            //declaring sever,user,database name
-                $servername = "localhost";
-                $username = "root";
-                $password = "root@123";
-                $dbname= "form";
-                $tablename= "form";
-                //check connection
-                try {
-                    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-                    // set the PDO error mode to exception
-                    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                }
-                catch(PDOException $e) {
-                    echo "Error: " . $e->getMessage();
-                }
+            require_once('dbconnect.php');
             $id=$_GET["id"];
             if (isset($_POST["update"])) {
                 $fname=$_POST["fname"];
@@ -39,7 +25,8 @@
                     $stmt = $conn->prepare($sql);
                     // execute the query
                     $stmt->execute();
-                    header("Location:process.php");
+                    //header('location:individual_record_display');
+                   echo("updated successfully!!!");
                     }
                 catch(PDOException $e)
                     {
@@ -49,6 +36,7 @@
                 $qry = $conn->prepare("SELECT * from form WHERE id=$id;"); 
                 $qry->execute();
                 $result = $qry->fetch();
+               
             ?>
     <div class="columns ">
         <div class="column is-8 is-offset-one-fifth">
@@ -79,11 +67,11 @@
                 <div class="field">
                     <div class="control">
                         <label class="radio">
-                            <input type="radio" name="gen" value= "female">
+                            <input type="radio" name="gender" value= "male">
                             Male
                         </label>
                         <label class="radio">
-                            <input type="radio" name="gen" value="female">
+                            <input type="radio" name="gender" value="female">
                             Female
                         </label>
                     </div>

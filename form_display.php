@@ -1,3 +1,6 @@
+<?php
+require_once('dbconnect.php');
+?>
 <html>
 <head>
 <style>
@@ -47,13 +50,14 @@ table, th, td {
 ?>
 <!--to take input of the form from the users-->
 <?php
+    
     ini_set('display_errors', '1');
     if(filter_has_var(INPUT_POST,'submit')){
         echo"<br>";
         echo 'The details submitted are the following:';
     }
-    if(isset($_POST['submit'])){
-        echo "<br>";
+     if(isset($_POST['submit'])){
+       echo "<br>";
         echo 'Id:';
         $id = htmlentities($_POST['id']);
         echo $id;
@@ -68,7 +72,13 @@ table, th, td {
         echo "<br>";
         echo 'Email:';
         $email = htmlentities($_POST['email']);
-        echo $email;
+        if (preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/", $email)) {
+            echo "$email is a valid email address";
+            }
+            else
+            {
+              echo "$email is NOT a valid email address";
+            }
         echo "<br>";
         echo 'Gender:';
         $gender = htmlentities($_POST['gender']);
@@ -82,17 +92,7 @@ table, th, td {
         $updation_time=date('jS F g:i A');
         echo $updation_time; 
     }
-    //declaring sever,user,database name
-    $servername = "localhost";
-    $username = "root";
-    $password = "root@123";
-    $dbname= "form";
-    $tablename= "form";
-    //check connection
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO form (id, Firstname, Lastname, email, gender, creation_time, updation_time)
         VALUES ('$id','$fname','$lname','$email','$gender','$creation_time' ,'$updation_time')";
         //use exec() because no results are returned
@@ -101,19 +101,15 @@ table, th, td {
         echo "Connected successfully"; 
     }
     catch(PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        //echo "Error: " . $e->getMessage();
     }
-    $conn=null;
+   
 ?>
 <?php
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
- // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $stmt = $conn->prepare("SELECT * FROM form;"); 
         $stmt->execute();
 // set the resulting array to associative
-//$result = $stmt->setFetchMode(PDO::FETCH_ASSOC); 
         }
         catch(PDOException $e) {
         echo "Error: " . $e->getMessage();
@@ -148,12 +144,6 @@ table, th, td {
 </table> 
 <!--to show how much records are entered in the table--> 
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "root@123";
-    $dbname = "form";
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $count = $conn->query("SELECT count(1) FROM form")->fetchColumn();
     echo "Total number of records entered:".$count;
 ?>
