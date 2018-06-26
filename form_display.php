@@ -26,7 +26,7 @@ table, th, td {
 <!--to show how much time elapsed when we first visited the session-->   
 <?php
     echo "<br>";
-    $time = strtotime('2018-06-20 17:40:43');
+    $time = strtotime('2018-06-26 13:03:43');
     echo 'you visited the page '.humanTiming($time).' ago';
     function humanTiming ($time)
     {
@@ -58,10 +58,10 @@ table, th, td {
     }
      if(isset($_POST['submit'])){
        echo "<br>";
-        echo 'Id:';
-        $id = htmlentities($_POST['id']);
-        echo $id;
-        echo "<br>";
+        // echo 'Id:';
+        // $id = htmlentities($_POST['id']);
+        // echo $id;
+        // echo "<br>";
         echo 'firstname:';
         $fname = htmlentities($_POST['fname']);
         echo $fname;
@@ -93,15 +93,15 @@ table, th, td {
         echo $updation_time; 
     }
     try {
-        $sql = "INSERT INTO form (id, Firstname, Lastname, email, gender, creation_time, updation_time)
-        VALUES ('$id','$fname','$lname','$email','$gender','$creation_time' ,'$updation_time')";
+        $sql = "INSERT INTO form (Firstname, Lastname, email, gender, creation_time, updation_time)
+        VALUES ('$fname','$lname','$email','$gender','$creation_time' ,'$updation_time')";
         //use exec() because no results are returned
         $conn->exec($sql);
         echo "New record created successfully";
         echo "Connected successfully"; 
     }
     catch(PDOException $e) {
-        //echo "Error: " . $e->getMessage();
+        echo "Error: " . $e->getMessage();
     }
    
 ?>

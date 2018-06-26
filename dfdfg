@@ -1,0 +1,9 @@
+$total=0;
+            $ln = explode("+",$sum);
+            print_r($ln);
+            //echo count($ln);
+            // exit;
+            // echo "<br/>";
+            // $abc = implode("sd",$ln);
+            // echo $abc;
+            // echo "<br/>";

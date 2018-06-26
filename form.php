@@ -56,7 +56,7 @@
 <!--to show how much time elapsed when we first visited the session-->    
       <?php
         echo "<br>";
-        $time = strtotime('2018-06-21 10:52:43');
+        $time = strtotime('2018-06-26 12:25:43');
         // echo $time;
         echo "\n";
         echo 'you visited the page '.humanTiming($time).' ago';
@@ -91,7 +91,7 @@
           <div class="field">
             <label class="label ">ID</label>
               <div class="control">
-                <input class="input is-primary" name="id" type="text" id="name" placeholder="">
+                <input class="input is-primary" name="id" type="text" disabled>
               </div>
           </div>
           <div class="field">
