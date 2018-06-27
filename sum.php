@@ -5,10 +5,10 @@
     <script type="text/javascript">
         function validate(form)
         {
-            var re = /^[0-9+]+$/;
+            var re = /^[0-9+-]+$/;
           if (!re.test(form.sum.value))
           {
-            alert('Please enter only numbers and + operator to get the output');
+            alert('Please enter only numbers and + or - operator to get the output');
             return false;
           }
         }
